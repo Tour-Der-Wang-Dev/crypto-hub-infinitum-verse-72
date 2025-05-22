@@ -1,10 +1,11 @@
 
-import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import React, { forwardRef } from 'react';
+import { LucideIcon, LucideProps } from 'lucide-react';
 
-export const Marketplace: LucideIcon = (props) => {
+export const Marketplace: LucideIcon = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -24,11 +25,12 @@ export const Marketplace: LucideIcon = (props) => {
       <path d="M4 5h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
     </svg>
   );
-};
+});
 
-export const Freelance: LucideIcon = (props) => {
+export const Freelance: LucideIcon = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -46,11 +48,12 @@ export const Freelance: LucideIcon = (props) => {
       <path d="M2 12h20" />
     </svg>
   );
-};
+});
 
-export const Travel: LucideIcon = (props) => {
+export const Travel: LucideIcon = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -70,4 +73,33 @@ export const Travel: LucideIcon = (props) => {
       <path d="M5.5 11 6 7M18.5 11l-.5-4" />
     </svg>
   );
-};
+});
+
+// Add a proper display name for all icons
+Marketplace.displayName = 'Marketplace';
+Freelance.displayName = 'Freelance';
+Travel.displayName = 'Travel';
+
+// Export Map icon
+export const Map: LucideIcon = forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
+  return (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
+      <line x1="9" x2="9" y1="3" y2="18" />
+      <line x1="15" x2="15" y1="6" y2="21" />
+    </svg>
+  );
+});
+Map.displayName = 'Map';

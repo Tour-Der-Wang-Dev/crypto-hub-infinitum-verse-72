@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Map, Marketplace, Freelance, Travel } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { Map, Marketplace, Freelance, Travel } from '@/components/custom-icons';
 import { Link } from 'react-router-dom';
 import InfinityLogo from '@/components/InfinityLogo';
 

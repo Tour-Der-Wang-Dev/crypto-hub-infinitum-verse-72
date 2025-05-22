@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Map, Marketplace, Freelance, Travel } from '@/components/custom-icons';
+import { Marketplace, Freelance, Travel } from '@/components/custom-icons';
 import { Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
