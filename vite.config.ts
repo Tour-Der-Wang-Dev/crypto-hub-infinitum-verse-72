@@ -40,7 +40,8 @@ export default defineConfig(({ mode }) => ({
           freelance: ['@/components/freelance'],
           marketplace: ['@/components/marketplace']
         }
-      }
+      },
+      external: mode === 'development' ? ['react-helmet'] : []
     },
     chunkSizeWarningLimit: 1000,
   }
