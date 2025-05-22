@@ -1,11 +1,12 @@
+
 import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { initWebVitals } from "@/utils/webVitalsReporter";
+import SeoHelmet from "./components/SEO/SeoHelmet";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import MapPage from "./pages/MapPage";
@@ -52,14 +53,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Helmet>
-          <script type="application/ld+json">
-            {JSON.stringify(organizationSchema)}
-          </script>
-          <script type="application/ld+json">
-            {JSON.stringify(websiteSchema)}
-          </script>
-        </Helmet>
+        <SeoHelmet schemas={[organizationSchema, websiteSchema]} />
         <Toaster />
         <Sonner />
         <BrowserRouter>
