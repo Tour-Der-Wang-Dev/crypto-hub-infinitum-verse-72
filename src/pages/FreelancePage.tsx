@@ -1,8 +1,40 @@
 
+import { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import FreelancerCard from '@/components/freelance/FreelancerCard';
+import JobCard from '@/components/freelance/JobCard';
+import { Freelancer, Job } from '@/types/marketplace';
+import { freelancers, jobs } from '@/data/freelance-data';
+import { Search } from 'lucide-react';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
+
+type TabType = 'freelancers' | 'jobs';
 
 const FreelancePage = () => {
+  const [activeTab, setActiveTab] = useState<TabType>('freelancers');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
+
+  const categories = ['Development', 'Design', 'Marketing', 'Writing', 'All Categories'];
+
+  const filteredFreelancers = freelancers.filter(freelancer => 
+    freelancer.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    freelancer.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    freelancer.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  const filteredJobs = jobs.filter(job => {
+    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.skills.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+    const matchesCategory = selectedCategory === 'All Categories' || job.category === selectedCategory;
+    
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-16">
@@ -13,120 +45,106 @@ const FreelancePage = () => {
           </p>
         </div>
 
+        {/* Tabs */}
         <div className="flex flex-col md:flex-row mb-8 gap-4">
-          <Button className="gold-gradient">
-            Freelancers
-          </Button>
-          <div className="flex-grow">
-            <input
+          <div className="flex space-x-2">
+            <Button
+              className={activeTab === 'freelancers' ? 'gold-gradient' : 'border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10'}
+              variant={activeTab === 'freelancers' ? 'default' : 'outline'}
+              onClick={() => setActiveTab('freelancers')}
+            >
+              Freelancers
+            </Button>
+            <Button
+              className={activeTab === 'jobs' ? 'gold-gradient' : 'border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10'}
+              variant={activeTab === 'jobs' ? 'default' : 'outline'}
+              onClick={() => setActiveTab('jobs')}
+            >
+              Find Jobs
+            </Button>
+          </div>
+          <div className="flex-grow relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Input
               type="text"
-              placeholder="Find Jobs..."
-              className="w-full px-4 py-3 rounded-md bg-infi-dark-blue/80 border border-infi-gold/20 focus:border-infi-gold focus:ring-1 focus:ring-infi-gold focus:outline-none"
+              placeholder={activeTab === 'freelancers' ? "Find Freelancers..." : "Find Jobs..."}
+              className="w-full pl-10 px-4 py-3 rounded-md bg-infi-dark-blue/80 border border-infi-gold/20 focus:border-infi-gold focus:ring-1 focus:ring-infi-gold focus:outline-none"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
 
+        {/* Category filters */}
         <div className="flex flex-wrap gap-4 mb-8">
-          <Button variant="outline" className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
-            Development
-          </Button>
-          <Button variant="outline" className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
-            Design
-          </Button>
-          <Button variant="outline" className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
-            Marketing
-          </Button>
-          <Button variant="outline" className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
-            All Categories
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Freelancer Cards */}
-          {[
-            {
-              name: "Alex Johnson",
-              title: "Blockchain Developer",
-              rating: 4.9,
-              projects: 45,
-              skills: ["Solidity", "Smart Contracts", "DeFi", "Web3.js"],
-              rate: "0.015 BTC",
-              avatar: "A"
-            },
-            {
-              name: "Sarah Williams",
-              title: "UI/UX Designer",
-              rating: 4.8,
-              projects: 38,
-              skills: ["UI Design", "UX Research", "Figma", "NFT Design"],
-              rate: "0.25 ETH",
-              avatar: "S"
-            },
-            {
-              name: "Michael Chen",
-              title: "Smart Contract Auditor",
-              rating: 5.0,
-              projects: 27,
-              skills: ["Smart Contract Audit", "Security Analysis", "Solidity", "Rust"],
-              rate: "0.02 BTC",
-              avatar: "M"
-            },
-            {
-              name: "Priya Sharma",
-              title: "Crypto Content Writer",
-              rating: 4.7,
-              projects: 53,
-              skills: ["Technical Writing", "Blog Posts", "White Papers", "Research"],
-              rate: "0.1 ETH",
-              avatar: "P"
-            }
-          ].map((freelancer, index) => (
-            <div key={index} className="card-glass p-6 rounded-lg">
-              <div className="flex space-x-4">
-                <div className="w-12 h-12 bg-infi-blue rounded-full flex items-center justify-center text-xl font-bold">
-                  {freelancer.avatar}
-                </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between">
-                    <h3 className="text-lg font-semibold">{freelancer.name}</h3>
-                    <div className="flex items-center">
-                      <span className="text-yellow-400">★</span>
-                      <span className="ml-1">{freelancer.rating}</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-400 text-sm">{freelancer.title}</p>
-                  <p className="text-xs text-gray-500 mt-1">{freelancer.projects} projects</p>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <div className="text-sm font-semibold mb-2">Skills:</div>
-                <div className="flex flex-wrap gap-2">
-                  {freelancer.skills.map((skill, i) => (
-                    <span key={i} className="text-xs bg-infi-dark px-2 py-1 rounded-full border border-infi-gold/30 text-infi-gold-light">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <span className="text-infi-gold font-bold">{freelancer.rate}</span>
-                  <span className="text-gray-400 text-sm">/hour</span>
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" className="border-infi-gold/50 text-infi-gold-light hover:bg-infi-gold/10 text-sm">
-                    Contact
-                  </Button>
-                  <Button className="gold-gradient text-sm">
-                    View Profile
-                  </Button>
-                </div>
-              </div>
-            </div>
+          {categories.map((category) => (
+            <Button 
+              key={category}
+              variant="outline" 
+              className={`border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10 ${
+                selectedCategory === category ? 'bg-infi-gold/10 border-infi-gold/50' : ''
+              }`}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </Button>
           ))}
         </div>
+
+        {/* Content based on active tab */}
+        {activeTab === 'freelancers' ? (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {filteredFreelancers.map((freelancer, index) => (
+                <FreelancerCard key={index} freelancer={freelancer} />
+              ))}
+            </div>
+            
+            {filteredFreelancers.length === 0 && (
+              <div className="text-center py-10">
+                <p className="text-gray-400">No freelancers found matching your search criteria.</p>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-6">
+              {filteredJobs.map((job, index) => (
+                <JobCard key={index} job={job} />
+              ))}
+            </div>
+            
+            {filteredJobs.length === 0 && (
+              <div className="text-center py-10">
+                <p className="text-gray-400">No jobs found matching your search criteria.</p>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Pagination */}
+        {((activeTab === 'freelancers' && filteredFreelancers.length > 0) || 
+          (activeTab === 'jobs' && filteredJobs.length > 0)) && (
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationLink className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink className="border-infi-gold/30 text-infi-gold-light hover:bg-infi-gold/10">
+                  3
+                </PaginationLink>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
       </div>
     </Layout>
   );
