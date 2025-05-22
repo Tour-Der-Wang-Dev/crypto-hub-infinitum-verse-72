@@ -1,73 +1,121 @@
-# Welcome to your Lovable project
 
-## Project info
+# InfiWorld - Crypto Payment Platform
 
-**URL**: https://lovable.dev/projects/7a19d937-66f3-4064-9007-086aa17249d0
+![InfiWorld Logo](https://infiworld.com/logo.png)
 
-## How can I edit this code?
+InfiWorld is the ultimate platform integrating cryptocurrency payments into marketplace, freelance services, and travel reservations.
 
-There are several ways of editing your application.
+## 🚀 Features
 
-**Use Lovable**
+- **Marketplace Integration** - Buy and sell products using cryptocurrency
+- **Freelance Services** - Hire freelancers and get paid in crypto
+- **Travel Booking** - Book flights, hotels, and experiences with crypto payments
+- **Secure Wallet** - Manage your cryptocurrency assets in one place
+- **User Profiles** - Verified accounts with robust profile management
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7a19d937-66f3-4064-9007-086aa17249d0) and start prompting.
+## 🛠️ Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React, TypeScript, Vite
+- **UI Components**: Tailwind CSS, shadcn/ui
+- **State Management**: React Context API, TanStack Query
+- **Authentication**: Supabase Auth
+- **Database**: Supabase (PostgreSQL)
+- **Styling**: Tailwind CSS
+- **Performance**: Web Vitals tracking
+- **SEO**: React Helmet
 
-**Use your preferred IDE**
+## 📋 Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js (v18.x or higher)
+- npm or yarn package manager
+- Supabase account for backend services
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🔧 Setup & Installation
 
-Follow these steps:
+```typescript
+// Clone the repository
+git clone https://github.com/your-username/infiworld.git
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+// Navigate to project directory
+cd infiworld
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+// Install dependencies
+npm install
+// or with yarn
+yarn install
 
-# Step 3: Install the necessary dependencies.
-npm i
+// Create a .env file based on .env.example
+cp .env.example .env
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+// Add your Supabase credentials to .env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+// Start development server
 npm run dev
+// or with yarn
+yarn dev
 ```
 
-**Edit a file directly in GitHub**
+## 🏗️ Build for Production
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```typescript
+// Build the project
+npm run build
+// or with yarn
+yarn build
 
-**Use GitHub Codespaces**
+// Preview the production build
+npm run preview
+// or with yarn
+yarn preview
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📝 Environment Variables
 
-## What technologies are used for this project?
+```typescript
+// Required environment variables
+interface EnvironmentVariables {
+  VITE_SUPABASE_URL: string;       // Your Supabase project URL
+  VITE_SUPABASE_ANON_KEY: string;  // Your Supabase anonymous key
+}
+```
 
-This project is built with:
+## 📖 Documentation
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Additional documentation:
 
-## How can I deploy this project?
+- [File Structure](./docs/filesExplainer.md)
+- [Scripts Reference](./docs/scripts.md)
+- [System Architecture](./docs/architecture.md)
+- [API Reference](./docs/api.md)
 
-Simply open [Lovable](https://lovable.dev/projects/7a19d937-66f3-4064-9007-086aa17249d0) and click on Share -> Publish.
+## 🤝 Contributing
 
-## Can I connect a custom domain to my Lovable project?
+We welcome contributions to InfiWorld!
 
-Yes, you can!
+```typescript
+interface ContributionGuidelines {
+  fork: () => void;                 // Fork the repository
+  createBranch: (name: string) => void; // Create a feature branch
+  commitChanges: (message: string) => void; // Commit your changes
+  pushToFork: () => void;           // Push to your fork
+  createPullRequest: () => void;    // Submit a pull request
+}
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit your Changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the Branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## 📞 Contact
+
+Your Name - [@your_twitter](https://twitter.com/your_twitter) - email@example.com
+
+Project Link: [https://github.com/your-username/infiworld](https://github.com/your-username/infiworld)
