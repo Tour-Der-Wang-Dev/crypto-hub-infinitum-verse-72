@@ -2,8 +2,25 @@
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import JobCard from '@/components/freelance/JobCard';
+import { Input } from '@/components/ui/input';
+import { Briefcase, Filter, Search } from 'lucide-react';
+import { useState } from 'react';
+import { travelJobs } from '@/data/travel-data';
 
 const TravelPage = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('All');
+
+  const filteredJobs = travelJobs.filter(job => {
+    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          job.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = categoryFilter === 'All' || job.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
+
+  const categories = ['All', ...Array.from(new Set(travelJobs.map(job => job.category)))];
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-16">
@@ -15,10 +32,11 @@ const TravelPage = () => {
         </div>
 
         <Tabs defaultValue="hotels" className="mb-10">
-          <TabsList className="grid w-full grid-cols-3 bg-infi-dark-blue/60">
+          <TabsList className="grid w-full grid-cols-4 bg-infi-dark-blue/60">
             <TabsTrigger value="hotels">Hotels</TabsTrigger>
             <TabsTrigger value="flights">Flights</TabsTrigger>
             <TabsTrigger value="experiences">Experiences</TabsTrigger>
+            <TabsTrigger value="jobs">Jobs</TabsTrigger>
           </TabsList>
           
           <TabsContent value="hotels" className="mt-6">
@@ -74,6 +92,53 @@ const TravelPage = () => {
           <TabsContent value="experiences" className="mt-6">
             <div className="card-glass p-6 rounded-lg">
               <p className="text-center py-8">Experiences booking interface coming soon</p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="jobs" className="mt-6">
+            <div className="card-glass p-6 rounded-lg">
+              <h2 className="text-xl font-bold mb-4">Find Crypto Travel Jobs</h2>
+              <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="relative flex-grow">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <Input
+                    type="text"
+                    placeholder="Search job titles, skills, or keywords..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-infi-dark border border-infi-gold/20 focus:border-infi-gold"
+                  />
+                </div>
+                <div className="md:w-64">
+                  <div className="relative">
+                    <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <select 
+                      className="w-full pl-10 pr-4 py-2 rounded-md bg-infi-dark border border-infi-gold/20 focus:border-infi-gold focus:outline-none"
+                      value={categoryFilter}
+                      onChange={(e) => setCategoryFilter(e.target.value)}
+                    >
+                      {categories.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {filteredJobs.length > 0 ? (
+                  filteredJobs.map((job, index) => (
+                    <JobCard key={index} job={job} />
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <Briefcase className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+                    <p className="text-gray-300">No jobs matching your search criteria</p>
+                  </div>
+                )}
+              </div>
             </div>
           </TabsContent>
         </Tabs>
