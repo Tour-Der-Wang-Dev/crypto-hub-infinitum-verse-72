@@ -9,8 +9,8 @@ interface SeoHelmetProps {
 }
 
 const SeoHelmet = ({
-  title = "InfiWorld Crypto Hub | Cryptocurrency Payment Platform",
-  description = "The ultimate platform integrating cryptocurrency payments into marketplace, freelance services and travel reservations",
+  title = "InfiWorld Crypto Hub",
+  description = "The Future of Crypto Payments InfiWorld connects cryptocurrency with real-world services in one seamless ecosystem. From marketplace to travel, experience the limitless possibilities.",
   canonicalUrl = "https://infiworld.com",
   schemas = [],
 }: SeoHelmetProps) => {
@@ -27,13 +27,13 @@ const SeoHelmet = ({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:site_name" content="InfiWorld" />
-      <meta property="og:image" content="https://infiworld.com/logo.png" />
+      <meta property="og:image" content="https://i.postimg.cc/85qRTLd9/2025-05-22-195358.png" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content="https://infiworld.com/logo.png" />
+      <meta name="twitter:image" content="https://i.postimg.cc/85qRTLd9/2025-05-22-195358.png" />
       
       {/* JSON-LD Schemas */}
       {schemas.map((schema, index) => (
