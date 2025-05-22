@@ -1,13 +1,32 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { Map, Marketplace, Freelance, Travel } from '@/components/custom-icons';
 import { Link } from 'react-router-dom';
 import InfinityLogo from '@/components/InfinityLogo';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthModal } from '@/components/auth/AuthModal';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const { user, signOut } = useAuth();
+
+  const handleAuthClick = () => {
+    if (user) {
+      // Dropdown will handle this case
+    } else {
+      setAuthModalOpen(true);
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-infi-dark/90 backdrop-blur-md border-b border-infi-gold/20">
@@ -34,10 +53,41 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Connect Wallet Button */}
-        <Button className="gold-gradient animate-pulse-gold hidden md:flex">
-          Connect Wallet
-        </Button>
+        {/* Connect Wallet / Auth Button */}
+        {!user ? (
+          <Button 
+            className="gold-gradient animate-pulse-gold hidden md:flex"
+            onClick={handleAuthClick}
+          >
+            Connect Wallet
+          </Button>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="ml-4 flex items-center gap-2 border-infi-gold/40">
+                <User size={16} />
+                <span className="truncate max-w-[100px]">
+                  {user.email?.split('@')[0] || 'Account'}
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to="/profile">Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/wallet">Wallet</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/verification">Verification</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={signOut}>
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
         {/* Mobile menu button */}
         <button
@@ -81,13 +131,45 @@ const Navbar = () => {
               <Travel size={18} /> Travel
             </Link>
             <div className="pt-2">
-              <Button className="gold-gradient animate-pulse-gold w-full">
-                Connect Wallet
-              </Button>
+              {!user ? (
+                <Button 
+                  className="gold-gradient animate-pulse-gold w-full"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setAuthModalOpen(true);
+                  }}
+                >
+                  Connect Wallet
+                </Button>
+              ) : (
+                <div className="space-y-2">
+                  <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full border-infi-gold/50">
+                      Profile
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-infi-gold/50"
+                    onClick={() => {
+                      signOut();
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Sign Out
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       )}
+      
+      {/* Auth Modal */}
+      <AuthModal 
+        open={authModalOpen} 
+        onClose={() => setAuthModalOpen(false)} 
+      />
     </nav>
   );
 };

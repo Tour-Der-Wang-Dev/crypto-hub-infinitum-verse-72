@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { initWebVitals } from "@/utils/webVitalsReporter";
+import { AuthProvider } from "@/contexts/AuthContext";
 import SeoHelmet from "./components/SEO/SeoHelmet";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -14,6 +15,8 @@ import MarketplacePage from "./pages/MarketplacePage";
 import FreelancePage from "./pages/FreelancePage";
 import TravelPage from "./pages/TravelPage";
 import VerificationPage from "./pages/VerificationPage";
+import ProfilePage from "./pages/ProfilePage";
+import WalletPage from "./pages/WalletPage";
 
 const queryClient = new QueryClient();
 
@@ -52,22 +55,26 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <SeoHelmet schemas={[organizationSchema, websiteSchema]} />
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/map" element={<MapPage />} />
-            <Route path="/marketplace" element={<MarketplacePage />} />
-            <Route path="/freelance" element={<FreelancePage />} />
-            <Route path="/travel" element={<TravelPage />} />
-            <Route path="/verification" element={<VerificationPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <SeoHelmet schemas={[organizationSchema, websiteSchema]} />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/map" element={<MapPage />} />
+              <Route path="/marketplace" element={<MarketplacePage />} />
+              <Route path="/freelance" element={<FreelancePage />} />
+              <Route path="/travel" element={<TravelPage />} />
+              <Route path="/verification" element={<VerificationPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/wallet" element={<WalletPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };
